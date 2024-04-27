@@ -54,9 +54,9 @@ const Subtitle = styled.p`
 
 const CardContainer = styled.div`
   display: flex;
+  justify-content: center !important;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
   max-width: 64.8rem;
   width: 100%;
   height: 100%;
@@ -110,18 +110,12 @@ const Index = () => {
     ? isFlask
     : snapsDetected;
 
-  const handleSendHelloClick = async () => {
-    await invokeSnap({ method: 'hello' });
-  };
-
   return (
     <Container>
       <Heading>
-        Welcome to <Span>template-snap</Span>
+        Welcome to <Span>socialconnect-snap</Span>
       </Heading>
-      <Subtitle>
-        Get started by editing <code>src/index.ts</code>
-      </Subtitle>
+
       <CardContainer>
         {error && (
           <ErrorMessage>
@@ -171,25 +165,8 @@ const Index = () => {
             disabled={!installedSnap}
           />
         )}
-        <Card
-          content={{
-            title: 'Send Hello message',
-            description:
-              'Display a custom message within a confirmation screen in MetaMask.',
-            button: (
-              <SendHelloButton
-                onClick={handleSendHelloClick}
-                disabled={!installedSnap}
-              />
-            ),
-          }}
-          disabled={!installedSnap}
-          fullWidth={
-            isMetaMaskReady &&
-            Boolean(installedSnap) &&
-            !shouldDisplayReconnectButton(installedSnap)
-          }
-        />
+      </CardContainer>
+      <CardContainer>
         <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}

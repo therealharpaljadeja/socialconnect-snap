@@ -1,5 +1,8 @@
-import type { OnRpcRequestHandler } from '@metamask/snaps-sdk';
-import { panel, text } from '@metamask/snaps-sdk';
+import type {
+  OnNameLookupHandler,
+  OnRpcRequestHandler,
+} from '@metamask/snaps-sdk';
+import { ChainDisconnectedError, panel, text } from '@metamask/snaps-sdk';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -33,4 +36,28 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     default:
       throw new Error('Method not found.');
   }
+};
+
+export const onNameLookup: OnNameLookupHandler = async ({
+  chainId,
+  domain,
+  address,
+}) => {
+  if (domain && chainId === 'eip155:42220') {
+    if (domain) {
+      const resolvedAddress = '0xc0ffee254729296a45a3885639AC7E10F9d54979';
+      return {
+        resolvedAddresses: [
+          { resolvedAddress, protocol: 'Unstoppable Domains' },
+        ],
+      };
+    }
+
+    if (address) {
+      // Domain lookup is not possible in SocialConnect
+      return null;
+    }
+  }
+
+  return null;
 };
